@@ -1,21 +1,23 @@
 // importation du module express
 import express from 'express';
+import 'dotenv/config';
+import connexion from './config/bdd.js';
 
 // création de l'application express
 const app = express();
 
-// définition de la route pour l'RUL /accueil
-app.get('/accueil', (req, res) => {
+// définition de la route pour l'URL /accueil
+app.get('/', (req, res) => {
     // envoi de la réponse "Hello World"
     res.send('Hello World');
 });
 
 app.get('/users', (req, res) => {
     res.json([
-        { nom: "poiret", prenom: "ewan"},
-        { nom: "barthlen", prenom: "juliette"}
-    ])
-})
+        { nom: "toto", prenom: "titi"},
+        { nom: "tata", prenom: "tutu"}
+    ]);
+});
 
 app.get('/cards', (req, res) => {
     res.send('Voici les cartes');
