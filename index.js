@@ -1,14 +1,23 @@
 // importation du module express
 import express from "express";
+// importation du fichier .env pour les données sensibles
 import "dotenv/config";
+// importation de la connexion à la BDD MYSQL
 import connexion from "./config/bdd.js";
+// importation des routes utilisateurs
+import userRoute from './Routes/userRoute.js';
 
 // création de l'application express
 const app = express();
 
-app.use(express.json()); // Middleware global pour parser JSON
+// Middleware global pour parser JSON
+app.use(express.json());
+
+
+app.use('/api', userRoute);
 
 // définition de la route pour l'URL /accueil
+// mauvaise méthode
 app.get("/", (req, res) => {
   // envoi de la réponse "Hello World"
   res.send("Hello ewan");
