@@ -14,10 +14,20 @@ export const getAllUsers = async (req, res) => {
 };
 
 export const getAllRoles = async (req, res) => {
-    try {
-        const usersRole = await userModel.getAllRoles();
-        res.status(200).json(usersRole)
-    } catch (error) {
-        console.error("Une erreur est survenue", error);
-    }
+  try {
+    const usersRole = await userModel.getAllRoles();
+    res.status(200).json(usersRole);
+  } catch (error) {
+    console.error("Une erreur est survenue", error);
+  }
+};
+
+export const getAllUsersById = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const usersId = await userModel.getAllUsersById(id);
+    res.status(200).json(usersId);
+  } catch (error) {
+    console.error("Une erreur est survenue", error);
+  }
 };
