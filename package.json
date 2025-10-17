@@ -1,0 +1,16 @@
+{
+  "name": "yugiohback",
+  "version": "1.0.0",
+  "description": "application yugioh",
+  "license": "ISC",
+  "author": "ewan",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}
