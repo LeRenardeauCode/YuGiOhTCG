@@ -2,7 +2,7 @@ import connexion from '../config/bdd.js';
 
 
 export const getAllEditions = async () => {
-  const selectAllEditions = "SELECT * FROM editions";
+  const selectAllEditions = "SELECT * FROM edition";
   const [response] = await connexion.query(selectAllEditions);
   return response;
 }
