@@ -33,3 +33,27 @@ export const addUtilisateur = async (
   );
   return result;
 };
+
+export const updateUtilisateur = async (id, prenomUser, nomUser, mail, motDePasse, dateNaissance, roleId) => {
+  let sql;
+  let params;
+
+  if (motDePasse) {
+    // Met à jour avec mot de passe hashé
+    sql = `
+      UPDATE user SET PrenomUser = ?, NomUser = ?, Mail = ?, MotDePasse = ?, DateNaissance = ?, RoleId = ?
+      WHERE UserId = ?
+    `;
+    params = [prenomUser, nomUser, mail, motDePasse, dateNaissance, roleId, id];
+  } else {
+    // Met à jour sans changer le mot de passe
+    sql = `
+      UPDATE user SET PrenomUser = ?, NomUser = ?, Mail = ?, DateNaissance = ?, RoleId = ?
+      WHERE UserId = ?
+    `;
+    params = [prenomUser, nomUser, mail, dateNaissance, roleId, id];
+  }
+
+  const [result] = await connexion.query(sql, params);
+  return result;
+};

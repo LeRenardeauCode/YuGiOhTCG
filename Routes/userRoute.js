@@ -9,5 +9,7 @@ router.get("/allUsers", userController.getAllUsers);
 router.get("/allRoles", userController.getAllRoles);
 router.get("/allUsersId/:id", userController.getAllUsersById);
 router.post("/addUtilisateur", userController.addUtilisateur);
+router.put("/user/:id", userController.updateUtilisateur);
+
 
 export default router;

@@ -61,3 +61,33 @@ export const addUtilisateur = async (req, res) => {
     res.status(500).json({ error: "Erreur serveur" });
   }
 };
+
+export const updateUtilisateur = async (req, res) => {
+  const { id } = req.params;
+  const { prenomUser, nomUser, mail, motDePasse, dateNaissance, roleId } = req.body;
+
+  if (!prenomUser || !nomUser || !mail || !dateNaissance || !roleId) {
+    return res.status(400).json({ error: "Tous les champs obligatoires sauf motDePasse sont requis" });
+  }
+
+  try {
+    let hashMdp = null;
+    if (motDePasse) {
+      hashMdp = await bcrypt.hash(motDePasse, 10);
+    }
+    const result = await userModel.updateUtilisateur(
+      id, prenomUser, nomUser, mail, hashMdp, dateNaissance, roleId
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Utilisateur non trouvé" });
+    }
+
+    res.status(200).json({ message: "Utilisateur mis à jour" });
+  } catch (error) {
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(409).json({ error: "Mail ou utilisateur déjà existant" });
+    }
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+};
