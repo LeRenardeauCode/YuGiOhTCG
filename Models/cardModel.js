@@ -26,3 +26,41 @@ WHERE carte.CarteId = ?;`;
   const [response] = await connexion.query(selectAllCardsById, [id]);
   return response;
 };
+
+export const createCard = async (card) => {
+  const sql = `
+    INSERT INTO carte (
+      NomCarte, DescriptionCarte, ImageUrl, TypeCarteId, AttributId,
+      NiveauCarte, ATK, DEF, RangCarte, LienRating, EchellePendule, EffetCarte
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+  const values = [
+    card.NomCarte, card.DescriptionCarte, card.ImageUrl, card.TypeCarteId, card.AttributId,
+    card.NiveauCarte, card.ATK, card.DEF, card.RangCarte, card.LienRating,
+    card.EchellePendule, card.EffetCarte
+  ];
+  const [result] = await connexion.query(sql, values);
+  return result;
+};
+
+export const updateCard = async (id, card) => {
+  const sql = `
+    UPDATE carte SET
+      NomCarte = ?, DescriptionCarte = ?, ImageUrl = ?, TypeCarteId = ?, AttributId = ?,
+      NiveauCarte = ?, ATK = ?, DEF = ?, RangCarte = ?, LienRating = ?, EchellePendule = ?, EffetCarte = ?
+    WHERE CarteId = ?
+  `;
+  const values = [
+    card.NomCarte, card.DescriptionCarte, card.ImageUrl, card.TypeCarteId, card.AttributId,
+    card.NiveauCarte, card.ATK, card.DEF, card.RangCarte, card.LienRating,
+    card.EchellePendule, card.EffetCarte, id
+  ];
+  const [result] = await connexion.query(sql, values);
+  return result;
+};
+
+export const deleteCard = async (id) => {
+  const sql = "DELETE FROM carte WHERE CarteId = ?";
+  const [result] = await connexion.query(sql, [id]);
+  return result;
+};

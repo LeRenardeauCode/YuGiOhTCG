@@ -21,48 +21,57 @@ export const getAllUsersById = async (id) => {
   return response;
 };
 
-export const addUtilisateur = async (
-  prenomUser, nomUser, mail, hashMdp, dateNaissance, dateInscription, roleId
+export const addUser = async (
+  PrenomUser, NomUser, Mail, hashMdp, DateNaissance, DateInscription, RoleId
 ) => {
   const sql = `
     INSERT INTO user (PrenomUser, NomUser, Mail, MotDePasse, DateNaissance, DateInscription, RoleId)
     VALUES (?, ?, ?, ?, ?, ?, ?)
   `;
   const [result] = await connexion.query(
-    sql, [prenomUser, nomUser, mail, hashMdp, dateNaissance, dateInscription, roleId]
+    sql, [PrenomUser, NomUser, Mail, hashMdp, DateNaissance, DateInscription, RoleId]
   );
   return result;
 };
 
-export const updateUtilisateur = async (id, prenomUser, nomUser, mail, motDePasse, dateNaissance, roleId) => {
+export const updateUser = async (id, PrenomUser, NomUser, Mail, MotDePasse, DateNaissance, RoleId) => {
   let sql;
   let params;
 
-  if (motDePasse) {
-    // Met à jour avec mot de passe hashé
-    sql = `
-      UPDATE user SET PrenomUser = ?, NomUser = ?, Mail = ?, MotDePasse = ?, DateNaissance = ?, RoleId = ?
-      WHERE UserId = ?
-    `;
-    params = [prenomUser, nomUser, mail, motDePasse, dateNaissance, roleId, id];
-  } else {
-    // Met à jour sans changer le mot de passe
-    sql = `
-      UPDATE user SET PrenomUser = ?, NomUser = ?, Mail = ?, DateNaissance = ?, RoleId = ?
-      WHERE UserId = ?
-    `;
-    params = [prenomUser, nomUser, mail, dateNaissance, roleId, id];
-  }
+  try {
+    if (MotDePasse) {
+      sql = `
+        UPDATE user SET PrenomUser = ?, NomUser = ?, Mail = ?, MotDePasse = ?, DateNaissance = ?, RoleId = ?
+        WHERE UserId = ?
+      `;
+      params = [PrenomUser, NomUser, Mail, MotDePasse, DateNaissance, RoleId, id];
+    } else {
+      sql = `
+        UPDATE user SET PrenomUser = ?, NomUser = ?, Mail = ?, DateNaissance = ?, RoleId = ?
+        WHERE UserId = ?
+      `;
+      params = [PrenomUser, NomUser, Mail, DateNaissance, RoleId, id];
+    }
 
-  const [result] = await connexion.query(sql, params);
-  return result;
+    console.log("SQL Query:", sql);
+    console.log("Params:", params);
+
+    const [result] = await connexion.query(sql, params);
+
+    console.log("Query result:", result);
+
+    return result;
+  } catch (error) {
+    console.error("Erreur dans updateUser model:", error);
+    throw error;
+  }
 };
 
-export const deleteUser = async () => {
+export const deleteUser = async (UserId) => {
   const delUser = `
-  DELETE FROM user
-  WHERE UserId = ?;
+    DELETE FROM user
+    WHERE UserId = ?;
   `;
   const [result] = await connexion.query(delUser, [UserId]);
   return result;
-}
+};
