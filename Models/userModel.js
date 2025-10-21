@@ -20,3 +20,16 @@ export const getAllUsersById = async (id) => {
   const [response] = await connexion.query(selectAllUsersId, [id]);
   return response;
 };
+
+export const addUtilisateur = async (
+  prenomUser, nomUser, mail, hashMdp, dateNaissance, dateInscription, roleId
+) => {
+  const sql = `
+    INSERT INTO user (PrenomUser, NomUser, Mail, MotDePasse, DateNaissance, DateInscription, RoleId)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `;
+  const [result] = await connexion.query(
+    sql, [prenomUser, nomUser, mail, hashMdp, dateNaissance, dateInscription, roleId]
+  );
+  return result;
+};
