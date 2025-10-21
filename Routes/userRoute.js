@@ -8,8 +8,8 @@ const router = express.Router();
 router.get("/allUsers", userController.getAllUsers);
 router.get("/allRoles", userController.getAllRoles);
 router.get("/allUsersId/:id", userController.getAllUsersById);
-router.post("/addUtilisateur", userController.addUtilisateur);
-router.put("/user/:id", userController.updateUtilisateur);
-
+router.post("/addUser", userController.addUtilisateur);
+router.put("/updateUser/:id", userController.updateUtilisateur);
+router.delete("/deleteUser/:id", userController.deleteUser);
 
 export default router;

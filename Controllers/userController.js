@@ -91,3 +91,20 @@ export const updateUtilisateur = async (req, res) => {
     res.status(500).json({ error: "Erreur serveur" });
   }
 };
+
+export const deleteUser = async (req, res) => {
+
+  const UserId = req.params.id;
+
+  try {
+    const existant = await userModel.getAllUsersById(UserId);
+    if (existant.length === 0) {
+      res.status(404).json({ message: "utilisateur inconnu" });
+    } else {
+      const deletedUser = await userModel.deleteUser(UserId);
+      res.status(200).json({ message: "utilisateur surpprimé" }, deletedUser);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}

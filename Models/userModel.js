@@ -57,3 +57,12 @@ export const updateUtilisateur = async (id, prenomUser, nomUser, mail, motDePass
   const [result] = await connexion.query(sql, params);
   return result;
 };
+
+export const deleteUser = async () => {
+  const delUser = `
+  DELETE FROM user
+  WHERE UserId = ?;
+  `;
+  const [result] = await connexion.query(delUser, [UserId]);
+  return result;
+}
