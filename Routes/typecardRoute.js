@@ -6,6 +6,6 @@ const router = express.Router();
 router.get("/allTypecards", typecardController.getAllTypecards);
 router.post("/typecard", typecardController.createTypeCard);
 router.put("/updateTypecard/:id", typecardController.updateTypecard);
-router.delete("/updateTypecard/:id", typecardController.deleteTypecard);
+router.delete("/deleteTypecard/:id", typecardController.deleteTypecard);
 
 export default router;
