@@ -14,8 +14,13 @@ import editionRoute from "./Routes/editionRoute.js";
 import rareteRoute from "./Routes/rareteRoute.js";
 import attributRoute from "./Routes/attributRoute.js";
 
+import cors from 'cors';
+
 // création de l'application express
 const app = express();
+
+// middleware pour autoriser les requêtes cross-origin
+app.use(cors());
 
 // Middleware global pour parser JSON
 app.use(express.json());
