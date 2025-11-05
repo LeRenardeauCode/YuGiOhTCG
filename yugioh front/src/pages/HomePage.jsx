@@ -1,4 +1,3 @@
-import react from 'react';
 import { useState, useEffect } from "react";
 import { allCards } from '../services/cardAPI';
 

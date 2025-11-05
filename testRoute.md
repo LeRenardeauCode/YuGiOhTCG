@@ -1,136 +1,186 @@
-# Tests de Routes API avec Postman
+# Documentation API - Gestion de Cartes
 
-----
-
-## 1. Type de Carte (typecard)
+## 1. Type de Carte (`typecard`)
 
 ### POST /api/typecard
-- Créer un nouveau type de carte
-- Body JSON :
-    {
-    "NomTypeCarte": "testMagie"
-    }
-- Réponse attendue : 201 { message: "Type créé", id: <new_id> }
-- Erreurs possibles : 400 (body manquant), 409 (type déjà existant)
 
----
+Créer un nouveau type de carte.
+
+**Body JSON attendu :**
+```json
+{
+  "NomTypeCarte": "testMagie"
+}
+```
+
+**Réponse attendue :**
+- Statut : 201
+- Contenu : `{ "message": "Type créé", "id": <new_id> }`
+
+**Erreurs possibles :**
+- 400 : corps manquant ou mal formé
+- 409 : type déjà existant
 
 ### GET /api/typecard
-- Récupérer tous les types de carte
-- Pas de body
-- Réponse : tableau de types avec id et nom
+
+Récupérer tous les types de carte.
+
+**Requête :**
+- Pas de corps (body) dans la requête.
+
+**Réponse :**
+- Tableau d'objets contenant `id` et `nom`.
 
 ---
 
-## 2. Edition
+## 2. Édition
 
 ### POST /api/edition
-- Créer une édition
-- Body JSON :
-    {
-    "NomEdition": "testEdition Classique",
-    "CodeEdition": "testEDC2025",
-    "DateEdition": "2025-10-01",
-    "TypeImpression": "testStandard"
-    }
+
+Créer une édition.
+
+**Body JSON attendu :**
+```json
+{
+  "NomEdition": "testEdition Classique",
+  "CodeEdition": "testEDC2025",
+  "DateEdition": "2025-10-01",
+  "TypeImpression": "testStandard"
+}
+```
 
 ---
 
 ## 3. Rareté
 
 ### POST /api/rarete
-- Créer une rareté
-- Body JSON :
-    {
-    "NomRarete": "testRare"
-    }
+
+Créer une rareté.
+
+**Body JSON attendu :**
+```json
+{
+  "NomRarete": "testRare"
+}
+```
 
 ---
 
 ## 4. Attribut
 
 ### POST /api/attribut
-- Créer un attribut
-- Body JSON :
-    {
-    "NomAttribut": "testElementaire"
-    }
+
+Créer un attribut.
+
+**Body JSON attendu :**
+```json
+{
+  "NomAttribut": "testElementaire"
+}
+```
 
 ### PUT /api/attribut/:id
-- Mettre à jour un attribut existant
-- Body JSON :
-    {
-    "NomAttribut": "testElementaireChange"
-    }
+
+Mettre à jour un attribut existant identifié par `id`.
+
+**Body JSON attendu :**
+```json
+{
+  "NomAttribut": "testElementaireChange"
+}
+```
 
 ### DELETE /api/attribut/:id
-- Supprimer un attribut par id
+
+Supprimer un attribut par `id`.
 
 ---
 
 ## 5. Utilisateur
 
 ### POST /api/addUser
-- Créer un utilisateur avec mot de passe hashé bcrypt
-- Body JSON :
-    {
-    "prenomUser": "Julie",
-    "nomUser": "Dupont",
-    "mail": "julie@example.com",
-    "motDePasse": "monmdpsecret",
-    "dateNaissance": "1990-01-01",
-    "roleId": 1
-    }
+
+Créer un utilisateur avec un mot de passe hashé via bcrypt.
+
+**Body JSON attendu :**
+```json
+{
+  "PrenomUser": "Julie",
+  "NomUser": "Dupont",
+  "Mail": "julie@example.com",
+  "MotDePasse": "monmdpsecret",
+  "DateNaissance": "1990-01-01",
+  "RoleId": 1
+}
+```
 
 ### PUT /api/user/:id
-- Mettre à jour un utilisateur (le mot de passe est optionnel et hashé si présent)
-- Body JSON exemple :
 
-    {
-    "prenomUser": "Caroline",
-    "nomUser": "Defrance",
-    "mail": "caroline@example.com",
-    "motDePasse": "nouveaumdp",
-    "dateNaissance": "1991-01-01",
-    "roleId": 1
-    }
+Mettre à jour un utilisateur identifié par `id`.
+
+**Remarque :** Le mot de passe est optionnel et sera hashé si présent.
+
+**Exemple de body JSON :**
+```json
+{
+  "PrenomUser": "Caroline",
+  "NomUser": "Defrance",
+  "Mail": "caroline@example.com",
+  "MotDePasse": "nouveaumdp",
+  "DateNaissance": "1991-01-01",
+  "RoleId": 1
+}
+```
 
 ---
 
-## 6. Carte (card)
+## 6. Carte (`card`)
 
 ### POST /api/card
-- Créer une carte
-- Body JSON exemple :
-    {
-    "NomCarte": "Dragon Wrath",
-    "DescriptionCarte": "Carte puissante",
-    "ImageUrl": "http://exemple.com/dragon.jpg",
-    "TypeCarteId": 2,
-    "AttributId": 3,
-    "NiveauCarte": 5,
-    "ATK": 2300,
-    "DEF": 1800,
-    "RangCarte": 3,
-    "LienRating": 7,
-    "EchellePendule": 4,
-    "EffetCarte": "Inflige des dégâts"
-    }
+
+Créer une carte.
+
+**Body JSON attendu :**
+```json
+{
+  "NomCarte": "Dragon Wrath",
+  "DescriptionCarte": "Carte puissante",
+  "ImageUrl": "http://exemple.com/dragon.jpg",
+  "TypeCarteId": 2,
+  "AttributId": 3,
+  "NiveauCarte": 5,
+  "ATK": 2300,
+  "DEF": 1800,
+  "RangCarte": 3,
+  "LienRating": 7,
+  "EchellePendule": 4,
+  "EffetCarte": "Inflige des dégâts"
+}
+```
 
 ### PUT /api/card/:id
-- Mettre à jour une carte, même structure que POST
+
+Mettre à jour une carte existante.
+
+**Body JSON :** Même structure que POST.
 
 ### DELETE /api/card/:id
-- Supprimer une carte par id
+
+Supprimer une carte par `id`.
 
 ---
 
-## Conseils
+## Conseils Généraux
 
-- Toujours utiliser le Header `Content-Type: application/json` sur les requêtes POST/PUT.
-- Vérifier le code de statut HTTP renvoyé (200, 201, 400, 404, 409, 500).
-- Sur body vide ou mal formé, tu dois recevoir une erreur 400.
-- Sur conflit (doublons), une erreur 409 sera renvoyée.
-- Sur ressources non trouvées avec id non existant lors de PUT/DELETE, erreur 404.
+- Toujours utiliser l'en-tête HTTP `Content-Type: application/json` pour les requêtes POST et PUT.
 
-----
+- Vérifier le code de statut HTTP renvoyé :
+  - **200 (OK) / 201 (Créé)** : Succès
+  - **400 (Requête mal formée)** : Corps vide ou mal formé
+  - **404 (Ressource non trouvée)** : ID invalide lors des opérations PUT ou DELETE
+  - **409 (Conflit)** : Doublons ou ressource déjà existante
+  - **500 (Erreur serveur)** : Erreur serveur
+
+- En cas de corps vide ou mal formé, une erreur 400 doit être renvoyée.
+- En cas de conflit de ressource (doublons), une erreur 409 sera renvoyée.
+- En cas de ressource non trouvée (id invalide) lors des opérations PUT ou DELETE, une erreur 404 sera renvoyée.
