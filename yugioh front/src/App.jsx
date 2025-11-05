@@ -1,13 +1,14 @@
-import HomePage from "./pages/HomePage";
-import UserList from "./pages/UserList";
+import Navbar from "../src/components/Navbar"
 
 function App() {
-    return (
-      <div className="App">
-        <HomePage />
-        <UserList/>
-      </div>
-    );
-};
+  return (
+    <>
+      <Navbar />
+      <main style={{ padding: "2rem" }}>
+        <h1>Bienvenue dans Yu-Gi-Oh Master avec MUI</h1>
+      </main>
+    </>
+  )
+}
 
-export default App;
+export default App
