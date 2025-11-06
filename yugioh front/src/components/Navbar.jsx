@@ -33,7 +33,7 @@ export default function NavBar() {
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#000000' /* noir profond */ }}>
+    <AppBar position="static" sx={{ backgroundColor: '#000000' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -47,7 +47,7 @@ export default function NavBar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: '#FFD700', // doré
+              color: '#FFD700',
               textDecoration: 'none',
             }}
           >
@@ -62,7 +62,7 @@ export default function NavBar() {
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
-              sx={{ color: '#FFD700' }} // icône dorée
+              sx={{ color: '#FFD700' }}
             >
               <MenuIcon />
             </IconButton>
@@ -75,7 +75,6 @@ export default function NavBar() {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
-              PaperProps={{ sx: { backgroundColor: '#1A1A1A' } }} // fond foncé menu
             >
               {pages.map(({ label, path }) => (
                 <MenuItem
@@ -136,7 +135,7 @@ export default function NavBar() {
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Ouvrir paramètres">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, background: "black" }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
@@ -155,6 +154,7 @@ export default function NavBar() {
                   key={setting}
                   onClick={handleCloseUserMenu}
                   sx={{
+                    background: "black",
                     color: '#FFD700',
                     '&:hover': { backgroundColor: '#8B0000' }
                   }}

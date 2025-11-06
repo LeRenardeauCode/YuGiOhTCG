@@ -70,7 +70,6 @@ useEffect(() => {
     try {
       const result = await createCard(newCardData);
       console.log('Carte créée:', result);
-      // réinitialiser les champs si besoin, ou rediriger
     } catch (err) {
       console.error('Erreur création carte:', err);
     }
