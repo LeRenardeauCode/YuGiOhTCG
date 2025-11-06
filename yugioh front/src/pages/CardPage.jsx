@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getAllCards } from "../services/cardAPI";
 import CardCards from '../components/CardCards';
 import Box from "@mui/material/Box";
+import { Typography } from "@mui/material";
 
 function CardPage() {
     const [cards, setCards] = useState([]);
@@ -22,7 +23,7 @@ function CardPage() {
 
     return (
         <>
-            <h1>Cartes</h1>
+            <Typography variant="h3" align="center">Cartes</Typography>
             <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
 
                 {cards.map(carte => (
