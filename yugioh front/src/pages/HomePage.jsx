@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
-import { allCards } from '../services/cardAPI';
+import { getAllCards } from "../services/cardAPI";
+import CardCards from '../components/CardCards';
+import Box from "@mui/material/Box";
 
 function HomePage() {
     const [cards, setCards] = useState([]);
 
-
     const fetchCards = async () => {
         try {
-            const response = await allCards();
-            setCards(response.data);
+            const response = await getAllCards();
+            console.log(response);
+            setCards(response);
         } catch (error) {
             console.error(error);
         }
@@ -19,16 +21,17 @@ function HomePage() {
     }, []);
 
     return (
-        <div>
+        <>
             <h1>Home Page</h1>
-            <div>Liste des cartes</div>
-            <ul>
-                {cards.map((carte) => (
-                    <li key={carte.CarteId}>{carte.NomCarte}</li>
-                ))}
-            </ul>
-        </div>
-    );
-};
+            <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
 
-export default HomePage
+                {cards.map(carte => (
+                    <CardCards key={carte.CarteId} carte={carte} />
+                ))}
+
+            </Box>
+        </>
+    );
+}
+
+export default HomePage;

@@ -4,11 +4,11 @@ export const getAllCards = async () => {
   const selectAllCards = `
 SELECT carte.NomCarte, rarete.NomRarete, edition.NomEdition, attribut.NomAttribut, type_carte.NomTypeCarte
 FROM carte
-INNER JOIN carte_edition ON carte.CarteId = carte_edition.CarteId
-INNER JOIN rarete ON carte_edition.RareteId = rarete.RareteId
-INNER JOIN edition ON carte_edition.EditionId = edition.EditionId
-INNER JOIN attribut ON carte.AttributId = attribut.AttributId
-INNER JOIN type_carte ON carte.TypeCarteId = type_carte.TypeCarteId
+LEFT JOIN carte_edition ON carte.CarteId = carte_edition.CarteId
+LEFT JOIN rarete ON carte_edition.RareteId = rarete.RareteId
+LEFT JOIN edition ON carte_edition.EditionId = edition.EditionId
+LEFT JOIN attribut ON carte.AttributId = attribut.AttributId
+LEFT JOIN type_carte ON carte.TypeCarteId = type_carte.TypeCarteId
 `;
   const [response] = await connexion.query(selectAllCards);
   return response;

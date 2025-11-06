@@ -2,8 +2,6 @@
 import express from "express";
 // importation du fichier .env pour les données sensibles
 import "dotenv/config";
-// importation de la connexion à la BDD MYSQL
-import connexion from "./config/bdd.js";
 // importation des routes utilisateurs
 import userRoute from './Routes/userRoute.js';
 import cardRoute from './Routes/cardRoute.js';
