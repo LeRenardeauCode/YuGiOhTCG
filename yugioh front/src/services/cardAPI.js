@@ -14,7 +14,7 @@ export const getAllCards = async () => {
 
 export const createCard = async (cardData) => {
   try {
-    const response = await axios.post(`${backendBaseUrl}/api/cards`, cardData, {
+    const response = await axios.post(`${backendBaseUrl}/api/card`, cardData, {
       headers: { 'Content-Type': 'application/json' }
     });
     return response.data;

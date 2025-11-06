@@ -1,37 +1,9 @@
-import { useState, useEffect } from "react";
-import { getAllCards } from "../services/cardAPI";
-import CardCards from '../components/CardCards';
-import Box from "@mui/material/Box";
-
-function HomePage() {
-    const [cards, setCards] = useState([]);
-
-    const fetchCards = async () => {
-        try {
-            const response = await getAllCards();
-            console.log(response);
-            setCards(response);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    useEffect(() => {
-        fetchCards();
-    }, []);
-
-    return (
-        <>
-            <h1>Home Page</h1>
-            <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-
-                {cards.map(carte => (
-                    <CardCards key={carte.CarteId} carte={carte} />
-                ))}
-
-            </Box>
-        </>
-    );
+const HomePage = () => {
+    return (<>
+    
+    </>  );
 }
-
+ 
 export default HomePage;
+
+
