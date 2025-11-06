@@ -17,7 +17,7 @@ export default function MediaCard({ carte }) {
     } = carte;
 
     return (
-        <Card sx={{ maxWidth: 345, margin: 2 }}>
+        <Card sx={{ width: 200, margin: 2 }}>
             <CardMedia
                 sx={{ height: 140 }}
                 image={ImageUrl || '/default-card-image.jpg'}

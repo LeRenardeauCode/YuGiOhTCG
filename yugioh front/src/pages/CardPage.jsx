@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { getAllCards } from "../services/cardAPI";
 import CardCards from '../components/CardCards';
 import Box from "@mui/material/Box";
-import { Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 
 function CardPage() {
     const [cards, setCards] = useState([]);
@@ -23,14 +23,16 @@ function CardPage() {
 
     return (
         <>
-            <Typography variant="h3" align="center">Cartes</Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+            <Container>
+                <Typography variant="h3" align="center" sx={{ mt: 4 }}>Cartes</Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', mt: 4, mx: 'auto', justifyContent: "center" }}>
 
-                {cards.map(carte => (
-                    <CardCards key={carte.CarteId} carte={carte} />
-                ))}
+                    {cards.map(carte => (
+                        <CardCards key={carte.CarteId} carte={carte} />
+                    ))}
 
-            </Box>
+                </Box>
+            </Container>
         </>
     );
 }
