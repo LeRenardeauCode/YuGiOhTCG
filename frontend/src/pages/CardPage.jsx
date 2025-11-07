@@ -10,7 +10,6 @@ function CardPage() {
     const fetchCards = async () => {
         try {
             const response = await getAllCards();
-            console.log(response);
             setCards(response);
         } catch (error) {
             console.error(error);
