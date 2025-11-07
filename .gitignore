@@ -1,7 +1,22 @@
+# Node
 node_modules/
-.env
+npm-debug.log
+package-lock.json
 
-Dictionnaire de données YuGiOh!.xlsx
-YuGiOh Data.pdf
-YuGiOh Data.png
-yugioh_db.sql
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Build
+dist/
+build/
+
+# Database volumes
+mysql_data/
