@@ -1,8 +1,6 @@
-import axios from 'axios';
-
-const backendBaseUrl = 'http://localhost:3000';
+import api from './api';
 
 export const getAttributs = async () => {
-  const response = await axios.get(`${backendBaseUrl}/api/allAttributs`);
+  const response = await api.get('/api/allAttributs');
   return response.data;
 };

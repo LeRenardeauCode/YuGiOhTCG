@@ -1,8 +1,6 @@
-import axios from 'axios';
-
-const backendBaseUrl = 'http://localhost:3000';
+import api from './api';
 
 export const getTypes = async () => {
-  const response = await axios.get(`${backendBaseUrl}/api/allTypecards`);
+  const response = await api.get('/api/allTypecards');
   return response.data;
 };

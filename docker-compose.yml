@@ -4,10 +4,8 @@ services:
     container_name: yugioh-mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_ROOT_PASSWORD: kali62
       MYSQL_DATABASE: yugioh_db
-      MYSQL_USER: yugioh_user
-      MYSQL_PASSWORD: yugioh_pass
     ports:
       - "3307:3306"
     volumes:
@@ -16,7 +14,7 @@ services:
     networks:
       - yugioh_network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -29,8 +27,8 @@ services:
     environment:
       NODE_ENV: development
       DB_HOST: mysql
-      DB_USER: yugioh_user
-      DB_PASSWORD: yugioh_pass
+      DB_USER: root
+      DB_PASSWORD: kali62
       DB_NAME: yugioh_db
       DB_PORT: 3306
     ports:
@@ -67,3 +65,4 @@ networks:
 
 volumes:
   mysql_data:
+    driver: local
