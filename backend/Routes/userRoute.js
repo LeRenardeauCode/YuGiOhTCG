@@ -12,5 +12,8 @@ router.get("/allUsersId/:id", userController.getAllUsersById);
 router.post("/addUser", authMiddleware, userController.addUser);
 router.put("/updateUser/:id", authMiddleware, userController.updateUser);
 router.delete("/deleteUser/:id", authMiddleware, checkRole(1), userController.deleteUser);
+router.get('/profile', authMiddleware, userController.getMyProfile);
+router.put('/profile', authMiddleware, userController.updateMyProfile);
+router.put('/profile/password', authMiddleware, userController.changePassword);
 
 export default router;

@@ -112,3 +112,92 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ error: "Erreur serveur" });
   }
 };
+
+export const getMyProfile = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    
+    const users = await userModel.getAllUsers();
+    const user = users.find(u => u.UserId === userId);
+    
+    if (!user) {
+      return res.status(404).json({ error: "Utilisateur non trouvé" });
+    }
+    
+    const { MotDePasse, ...userWithoutPassword } = user;
+    
+    res.status(200).json(userWithoutPassword);
+  } catch (error) {
+    console.error("Erreur getMyProfile:", error);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+};
+
+export const updateMyProfile = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const { PrenomUser, NomUser, DateNaissance } = req.body;
+    
+    const users = await userModel.getAllUsers();
+    const user = users.find(u => u.UserId === userId);
+    
+    if (!user) {
+      return res.status(404).json({ error: "Utilisateur non trouvé" });
+    }
+    
+    await userModel.updateUser(
+      userId,              
+      PrenomUser,          
+      NomUser,             
+      user.Mail,           
+      user.MotDePasse,     
+      DateNaissance,       
+      user.RoleId          
+    );
+    
+    res.status(200).json({ message: "Profil mis à jour avec succès" });
+  } catch (error) {
+    console.error("Erreur updateMyProfile:", error);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+};
+
+export const changePassword = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const { ancienMotDePasse, nouveauMotDePasse } = req.body;
+    
+    const users = await userModel.getAllUsers();
+    const user = users.find(u => u.UserId === userId);
+    
+    if (!user) {
+      return res.status(404).json({ error: "Utilisateur non trouvé" });
+    }
+    
+
+    const validPassword = await bcrypt.compare(ancienMotDePasse, user.MotDePasse);
+    
+    if (!validPassword) {
+      return res.status(401).json({ error: "Ancien mot de passe incorrect" });
+    }
+    
+  
+    const newHashedPassword = await bcrypt.hash(nouveauMotDePasse, 10);
+    
+    
+    await userModel.updateUser(
+      userId,
+      user.PrenomUser,
+      user.NomUser,
+      user.Mail,
+      newHashedPassword,   
+      user.DateNaissance,
+      user.RoleId
+    );
+    
+    res.status(200).json({ message: "Mot de passe modifié avec succès" });
+  } catch (error) {
+    console.error("Erreur changePassword:", error);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+};

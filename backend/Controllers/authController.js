@@ -14,7 +14,7 @@ export const register = async (req, res) => {
   try {
     const hashMdp = await bcrypt.hash(MotDePasse, 10);
     const dateInscription = new Date();
-    const RoleId = 2; // User par défaut
+    const RoleId = 6; // User par défaut
 
     const result = await userModel.addUser(
       PrenomUser, NomUser, Mail, hashMdp, DateNaissance, dateInscription, RoleId
@@ -28,7 +28,7 @@ export const register = async (req, res) => {
     const token = jwt.sign(
       { 
         userId: result.insertId, 
-        mail: Mail,
+        mail: MAIL,
         roleId: RoleId 
       },
       process.env.JWT_SECRET,
@@ -54,21 +54,31 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   const { Mail, MotDePasse } = req.body;
 
+    console.log('📧 Login attempt:', Mail);
+
   if (!Mail || !MotDePasse) {
     return res.status(400).json({ error: "Email et mot de passe requis" });
   }
 
   try {
     const users = await userModel.getAllUsers();
-    const user = users.find(u => u.Mail === Mail);
+    console.log('👥 Total users:', users.length);
+
+    const user = users.find(u => u.MAIL === Mail);
 
     if (!user) {
+      console.log('❌ User not found for email:', Mail);
       return res.status(401).json({ error: "Email ou mot de passe incorrect" });
     }
 
+    console.log('✅ User found:', user.PrenomUser);
+    console.log('🔐 Password hash:', user.MotDePasse.substring(0, 30) + '...');
+
     const validPassword = await bcrypt.compare(MotDePasse, user.MotDePasse);
+    console.log('🔑 Password valid?', validPassword);
 
     if (!validPassword) {
+      console.log('❌ Invalid password');
       return res.status(401).json({ error: "Email ou mot de passe incorrect" });
     }
 
@@ -81,6 +91,8 @@ export const login = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
+
+    console.log('✅ Login successful for:', user.PrenomUser);
 
     res.status(200).json({ 
       message: "Connexion réussie",

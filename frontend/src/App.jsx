@@ -1,14 +1,20 @@
 import Navbar from "../src/components/Navbar";
 import CardPage from "./pages/CardPage";
 import HomePage from "./pages/HomePage";
+import Login from "./pages/Login";
 import NewCard from "./pages/NewCard";
 import { Routes, Route } from "react-router-dom";
+import Register from "./pages/Register";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
     <>
       <Navbar />
       <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path='/' element={<HomePage />} />
         <Route path='/card' element={<CardPage />} />
         <Route path='/new-card' element={<NewCard />} />
