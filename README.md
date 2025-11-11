@@ -1,160 +1,397 @@
 # Projet Yu-Gi-Oh TCG
 
 ## Description
-Plateforme complète de gestion de cartes Yu-Gi-Oh avec API backend Node.js/Express, base de données MySQL et frontend React/Vite.
+Plateforme complète de gestion de cartes Yu-Gi-Oh avec système d'authentification JWT, gestion des utilisateurs et collections personnelles. Backend Node.js/Express, base de données MySQL et frontend React/Vite avec Material-UI.
 
 ---
 
-## Fonctionnalités
-- ✅ API REST pour gérer les cartes Yu-Gi-Oh
-- ✅ Base de données MySQL avec structure relationnelle
-- ✅ Interface frontend interactive pour visualiser les cartes
-- ✅ Docker & Docker Compose pour un environnement isolé et reproductible
-- ✅ Gestion des attributs, raretés, éditions et types de cartes
+## ✨ Fonctionnalités
+
+### Authentification & Utilisateurs
+- 🔐 Système d'inscription et connexion avec JWT
+- 👤 Gestion des profils utilisateurs (modifier infos, changer mot de passe)
+- 🎭 Système de rôles : Admin, Modérateur, Utilisateur
+- 📊 Tableau de bord pour admins et modérateurs
+- 🔒 Protection des routes avec middleware d'authentification
+
+### Gestion des cartes
+- ✅ CRUD complet pour les cartes Yu-Gi-Oh
+- 🎨 Visualisation interactive des cartes
+- 🏷️ Gestion des attributs, raretés, éditions et types de cartes
+- 📋 Filtrage et recherche de cartes
+
+### Collections & Decks
+- 📚 Collection personnelle de cartes par utilisateur
+- 🃏 Création et gestion de decks personnalisés
+- 🔐 Accès restreint aux utilisateurs connectés
 
 ---
 
-## Technologies utilisées
+## 🛠️ Technologies utilisées
+
 ### Backend
-- Node.js 18
-- Express.js
-- MySQL 8.0
-- Sequelize (ORM)
+- **Node.js 18** - Runtime JavaScript
+- **Express.js** - Framework web
+- **MySQL 8.0** - Base de données relationnelle
+- **JWT (jsonwebtoken)** - Authentification sécurisée
+- **bcrypt** - Hashage des mots de passe
+- **dotenv** - Gestion des variables d'environnement
 
 ### Frontend
-- React 18 + Vite
-- Axios pour les requêtes API
+- **React 18** - Bibliothèque UI
+- **Vite** - Build tool ultra-rapide
+- **Material-UI (MUI)** - Framework de composants
+- **React Router** - Navigation
+- **Axios** - Requêtes HTTP
 
-### DevOps
-- Docker & Docker Compose
-- Nginx (production)
+### DevOps (en cours)
+- Docker & Docker Compose (configuration en cours)
 
 ---
 
-## Installation & Lancement
+## 📦 Installation & Lancement
 
 ### Prérequis
-- Docker & Docker Desktop installés
+- Node.js 18+ installé
+- MySQL 8.0+ installé et démarré
 - Git
 
-### Méthode 1 : Avec Docker (Recommandé)
+### Installation locale
 
-- Cloner le repo
+#### 1. Cloner le repository
+
 git clone <repo-url>
 cd YuGiOhTCG
 
-- Lancer tout avec Docker Compose
-docker-compose up -d --build
+#### 2. Configuration de la base de données
 
-- Accéder à l'app
-Frontend : http://localhost:5173
+- Créer la base de données MySQL :
 
-Backend API : http://localhost:3000
+CREATE DATABASE yugioh_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-- MySQL : localhost:3307
+- Importer le schéma (si disponible) :
 
-### Méthode 2 : Développement local
+mysql -u root -p yugioh_db < database/schema.sql
 
-- Backend
+#### 3. Backend
+
 cd backend
 npm install
+
+- Créer le fichier `.env` :
+
+JWT_SECRET=votre_secret_jwt_ultra_securise_ici
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=votre_mot_de_passe
+DB_NAME=yugioh_db
+DB_PORT=3306
+PORT=3000
+
+- Générer un JWT_SECRET sécurisé :
+
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+
+- Lancer le serveur :
+
 npm start
 
-- Frontend (dans un autre terminal)
+Le backend sera accessible sur [**http://localhost:3000**](http://localhost:3000)
+
+#### 4. Frontend
+
 cd frontend
 npm install
 npm run dev
 
+Le frontend sera accessible sur [**http://localhost:5173**](http://localhost:5173)
+
 ---
 
-## Structure du projet
+## 📁 Structure du projet
 
 YuGiOhTCG/
 ├── backend/
 │ ├── Controllers/
+│ │ ├── authController.js # Authentification (login/register)
+│ │ ├── userController.js # Gestion des utilisateurs
+│ │ ├── cardController.js # Gestion des cartes
+│ │ └── ...
 │ ├── Models/
+│ │ ├── userModel.js # Modèle utilisateur
+│ │ ├── cardModel.js # Modèle carte
+│ │ └── ...
 │ ├── Routes/
-│ ├── index.js
+│ │ ├── authRoute.js # Routes d'authentification
+│ │ ├── userRoute.js # Routes utilisateurs
+│ │ ├── cardRoute.js # Routes cartes
+│ │ └── ...
+│ ├── middleware/
+│ │ └── authMiddleware.js # Middleware JWT
+│ ├── config/
+│ │ └── bdd.js # Configuration MySQL
+│ ├── scripts/
+│ │ └── hashPasswords.js # Script de hashage des mots de passe
+│ ├── index.js # Point d'entrée
+│ ├── .env # Variables d'environnement (à créer)
 │ └── package.json
 ├── frontend/
 │ ├── src/
-│ ├── public/
+│ │ ├── components/
+│ │ │ └── NavBar.jsx # Barre de navigation
+│ │ ├── pages/
+│ │ │ ├── Login.jsx # Page de connexion
+│ │ │ ├── Register.jsx # Page d'inscription
+│ │ │ ├── Profile.jsx # Page de profil
+│ │ │ ├── Account.jsx # Mon compte
+│ │ │ ├── Dashboard.jsx # Tableau de bord (admin/modérateur)
+│ │ │ └── ...
+│ │ ├── services/
+│ │ │ ├── api.js # Configuration Axios + intercepteurs JWT
+│ │ │ ├── authAPI.js # Services d'authentification
+│ │ │ ├── cardAPI.js # Services cartes
+│ │ │ └── ...
+│ │ ├── App.jsx # Composant racine
+│ │ └── main.jsx
 │ ├── package.json
 │ └── vite.config.js
 ├── database/
-│ └── init.sql (schéma de base)
-├── docker-compose.yml
+│ └── schema.sql # Schéma de base (à créer)
+├── docker-compose.yml # Configuration Docker (en cours)
 └── README.md
 
 ---
 
-## Routes principales de l'API
+## 🔌 Routes API principales
 
+### Authentification
+| Méthode | Route | Description | Protection |
+|---------|-------|-------------|------------|
+| POST | `/api/auth/register` | Inscription d'un utilisateur | Publique |
+| POST | `/api/auth/login` | Connexion | Publique |
+| GET | `/api/auth/verify` | Vérifier le token JWT | JWT requis |
+
+### Utilisateurs
+| Méthode | Route | Description | Protection |
+|---------|-------|-------------|------------|
+| GET | `/api/users` | Liste tous les utilisateurs | Publique |
+| GET | `/api/users/:id` | Récupère un utilisateur | Publique |
+| GET | `/api/profile` | Profil de l'utilisateur connecté | JWT requis |
+| PUT | `/api/profile` | Modifier son profil | JWT requis |
+| PUT | `/api/profile/password` | Changer son mot de passe | JWT requis |
+| DELETE | `/api/users/:id` | Supprimer un utilisateur | JWT + Admin |
+
+### Cartes
+| Méthode | Route | Description | Protection |
+|---------|-------|-------------|------------|
+| GET | `/api/allCards` | Toutes les cartes | Publique |
+| GET | `/api/card/:id` | Une carte par ID | Publique |
+| POST | `/api/card` | Créer une carte | JWT requis |
+| PUT | `/api/card/:id` | Modifier une carte | JWT requis |
+| DELETE | `/api/card/:id` | Supprimer une carte | JWT + Admin |
+
+### Métadonnées
 | Méthode | Route | Description |
 |---------|-------|-------------|
-| GET | `/api/card` | Récupère toutes les cartes |
-| GET | `/api/card/:id` | Récupère une carte par ID |
-| POST | `/api/card` | Crée une nouvelle carte |
-| PUT | `/api/card/:id` | Met à jour une carte |
-| DELETE | `/api/card/:id` | Supprime une carte |
+| GET | `/api/allAttributs` | Liste des attributs |
+| GET | `/api/allRaretes` | Liste des raretés |
+| GET | `/api/allEditions` | Liste des éditions |
+| GET | `/api/allTypecards` | Liste des types de cartes |
 
 ---
 
-## Commandes Docker essentielles
+## 🔐 Sécurité
 
-- Démarrer les containers
-docker-compose up -d --build
+### Mots de passe
+- Hashage avec **bcrypt** (10 rounds)
+- Vérification lors de la connexion
+- Changement de mot de passe avec validation de l'ancien
 
-- Arrêter les containers
-docker-compose down
+### JWT (JSON Web Token)
+- Token signé avec clé secrète (variable `JWT_SECRET`)
+- Durée de validité : 24 heures
+- Stockage dans `localStorage` côté client
+- Envoi automatique dans le header `Authorization: Bearer <token>`
 
-- Arrêter + supprimer les données
-docker-compose down -v
-
-- Voir les logs
-docker-compose logs -f
-
-- Logs d'un service spécifique
-docker-compose logs -f backend
-
----
-
-## Gestion de la base de données
-
-### Accès direct à MySQL
-
-docker-compose exec mysql mysql -u yugioh_user -pyugioh_pass -D yugioh_db
-
-- Afficher les tables
-SHOW TABLES;
-
-### Ajouter des données de test
-
-docker exec -it yugioh-mysql mysql -u root -prootpassword yugioh_db < ./database/init.sql
-
+### Protection des routes
+- Middleware `authMiddleware` pour vérifier le token
+- Middleware `checkRole` pour restreindre par rôle (admin/modérateur)
+- Redirection automatique vers `/login` si token invalide ou expiré
 
 ---
 
-## Contribution
-Les PR sont les bienvenues ! Avant de proposer des changements :
-1. Créer une branche (`git checkout -b feature/ma-feature`)
-2. Tester localement avec Docker
-3. Committer les changements (`git commit -m 'Add feature'`)
-4. Pousser la branche (`git push origin feature/ma-feature`)
-5. Ouvrir une Pull Request
+## 👥 Système de rôles
+
+| RoleId | Nom | Permissions |
+|--------|-----|-------------|
+| 5 | Admin | Accès complet (dashboard, gestion users, suppression) |
+| 6 | User | Création de cartes, gestion de son profil |
+| 7 | Modérateur | Dashboard + modération de contenu |
 
 ---
 
-## Notes importantes
-- 🔒 Ne pas committer les fichiers `.env` avec les identifiants
-- 📦 Le `database/init.sql` DOIT être versionné pour la reproductibilité
-- 🐳 Les `node_modules/` et `mysql_data/` sont ignorés par `.gitignore`
-- ✅ Toujours tester avec Docker avant de pusher (`docker-compose up -d --build`)
+## 🎨 Pages frontend
+
+### Publiques
+- **/** - Page d'accueil
+- **/login** - Connexion
+- **/register** - Inscription
+- **/card** - Liste des cartes
+
+### Protégées (JWT requis)
+- **/profile** - Édition du profil
+- **/account** - Voir mon compte
+- **/new-card** - Créer une carte
+- **/my-decks** - Mes decks (à venir)
+- **/my-collection** - Ma collection (à venir)
+
+### Admin/Modérateur uniquement
+- **/dashboard** - Tableau de bord avec statistiques
 
 ---
 
-## Auteur
+## 🚀 Scripts utiles
+
+### Backend
+
+- Démarrer le serveur :
+npm start
+
+- Hasher les mots de passe existants (uniquement pour seed) :
+node scripts/hashPasswords.js (uniquement pour seed)
+
+### Frontend
+
+- Mode développement avec hot reload :
+npm run dev
+
+- Build de production :
+npm run build
+
+- Prévisualiser le build :
+npm run preview
+
+---
+
+## 🐳 Docker (Configuration en cours)
+
+La configuration Docker est en cours d'amélioration. Pour l'instant, utiliser l'installation locale.
+
+---
+
+## 🔧 Développement
+
+### Ajouter une nouvelle route protégée
+
+1. **Backend** - Dans `Routes/maRoute.js` :
+
+import { authMiddleware } from "../middleware/authMiddleware.js";
+
+router.get('/ma-route', authMiddleware, monController.maFonction);
+
+2. **Frontend** - L'instance `api` gère automatiquement le token :
+
+import api from '../services/api';
+
+const data = await api.get('/api/ma-route');
+
+### Tester l'authentification
+
+**Avec un compte de test** :
+
+Email: yugi.muto@domino.com
+Mot de passe: password123
+Rôle: Admin
+
+---
+
+## 📝 TODO / Roadmap
+
+- [ ] Finaliser la configuration Docker
+- [ ] Page Mes Decks
+- [ ] Page Ma Collection
+- [ ] Système de favoris
+- [ ] Recherche avancée de cartes
+- [ ] Upload d'images de cartes
+- [ ] Tests unitaires (Jest)
+- [ ] CI/CD avec GitHub Actions
+
+---
+
+## ⚠️ Notes importantes
+
+- 🔒 **Ne JAMAIS committer** le fichier `.env` avec les vraies identifiants
+- 🔑 Utiliser un `JWT_SECRET` long et aléatoire (32+ caractères)
+- 🗃️ Les mots de passe en BDD doivent **toujours** être hashés
+- 📦 Les `node_modules/` sont ignorés par `.gitignore`
+- ✅ Tester en local avant de pusher
+
+---
+
+## 🐛 Dépannage
+
+### Erreur "Cannot find module"
+
+cd backend && npm install
+cd frontend && npm install
+
+### Erreur "secretOrPrivateKey must have a value"
+Vérifier que `JWT_SECRET` existe dans `backend/.env`
+
+### Erreur MySQL "Cannot connect"
+Vérifier que MySQL est démarré et les identifiants dans `.env`
+
+### Token invalide après reconnexion
+Vider le localStorage : `F12` → Console → `localStorage.clear()`
+
+
+## 🤝 Contribution
+
+Ce projet est réalisé dans le cadre de ma formation **DWWM 2025** (Développeur Web et Web Mobile).
+
+### Pour les formateurs et évaluateurs
+- 📖 Consultez le `Dictionnaire-de-donnees-YuGiOh.xlsx` pour la structure de la base de données
+- 🗺️ Le schéma MCD/MLD est disponible dans `database/`
+- 📝 Le code est commenté et suit les bonnes pratiques ES6+
+
+### Pour les collègues de promo
+Si tu veux contribuer ou tester :
+1. **Fork** le repository
+2. **Clone** ton fork : `git clone <ton-fork-url>`
+3. **Crée une branche** : `git checkout -b feature/ma-fonctionnalite`
+4. **Teste en local** (backend + frontend)
+5. **Commit** : `git commit -m "Add: description de la feature"`
+6. **Push** : `git push origin feature/ma-fonctionnalite`
+7. **Ouvre une Pull Request** avec une description claire
+
+### Standards de code
+- ✅ Utiliser ES6+ (import/export, const/let, arrow functions)
+- ✅ Nommer les variables en camelCase (`nomVariable`)
+- ✅ Nommer les composants React en PascalCase (`MonComposant`)
+- ✅ Commenter les fonctions complexes
+- ✅ Tester avant de pusher
+
+### Branches
+- `main` - Version stable et fonctionnelle
+- `dev` - Développement en cours
+- `feature/*` - Nouvelles fonctionnalités
+- `fix/*` - Corrections de bugs
+
+---
+
+
+## 👤 Auteur
 **POIRET Ewan**
+DWWM 2025
+
+**Assistance technique**  
+Développement assisté par **Perplexity AI** pour :
+- Architecture backend (JWT, authentification, middleware)
+- Optimisation des requêtes SQL
+- Debugging et résolution de problèmes
+- Documentation du code
+- Pour m'expliquer pourquoi mon JWT était undefined à 2h du mat'
+- Il a passé 3 heures à m'expliquer la différence entre `Mail` et `MAIL` dans ma BDD. Respect.
 
 ---
 
