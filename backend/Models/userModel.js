@@ -70,7 +70,7 @@ export const updateUser = async (id, PrenomUser, NomUser, Mail, MotDePasse, Date
 export const deleteUser = async (UserId) => {
   const delUser = `
     DELETE FROM user
-    WHERE UserId = ?;
+    WHERE UserId = ?
   `;
   const [result] = await connexion.query(delUser, [UserId]);
   return result;
